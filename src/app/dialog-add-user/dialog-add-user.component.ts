@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -15,6 +15,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { User } from '../../models/user.class';
 import { FormsModule } from '@angular/forms';
+import { Firestore, addDoc, collection, collectionData } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { getStorage, ref } from "firebase/storage";
 
 
 @Component({
@@ -29,15 +32,38 @@ export class DialogAddUserComponent {
   user = new User();
   birthDate!: Date; 
 
-  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<DialogAddUserComponent>) {}
+  firestore: Firestore = inject(Firestore);
+  items$: Observable<any[]>;
+
+  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<DialogAddUserComponent>) {
+    const aCollection = collection(this.firestore, 'items')
+    
+    this.items$ = this.getItems();
+  }
+
+  
+  getItems() {
+    const aCollection = collection(this.firestore, 'Users');
+    return collectionData(aCollection);
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  saveUser(){
-    this.user.birthDate = this.birthDate.getTime()
-    console.log('user:', this.user);
-    
-  }
+  async saveUser() {
+    // Konvertiere das Datum in Millisekunden, bevor es in die Datenbank gespeichert wird
+    this.user.birthDate = this.birthDate.getTime();
+
+    try {
+        // Konvertiere das Benutzerobjekt in ein JSON-Objekt
+        const userData = JSON.parse(JSON.stringify(this.user));
+
+        // Füge das Benutzerdokument zur Sammlung 'items' hinzu
+        await addDoc(collection(this.firestore, 'Users'), userData);
+        console.log('Benutzer wurde erfolgreich gespeichert:', userData);
+    } catch (error) {
+        console.error('Fehler beim Speichern des Benutzers:', error);
+    }
+}
 }
