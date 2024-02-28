@@ -1,5 +1,51 @@
-.add-user-button{
+.add-user-button {
     position: absolute;
     right: 56px;
     bottom: 56px;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    >tr {
+        border-bottom: 1px solid rgb(0, 0, 0, 0.4);
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+
+        &:first-child {
+            cursor: unset;
+
+            &:hover {
+                background-color: unset;
+            }
+        }
+
+        &:last-child {
+            border-bottom: 0;
+        }
+
+        >th {
+            color: rgba(0, 0, 0, 0.4);
+            font-weight: 500;
+            font-size: 14px;
+            text-align: start;
+
+            &:first-child {
+                padding-left: 16px;
+            }
+        }
+
+        >td {
+            height: 48px;
+
+            &:first-child {
+                padding-left: 16px
+            }
+        }
+
+    }
 }
