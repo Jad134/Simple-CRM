@@ -6,12 +6,18 @@ import { User } from '../../models/user.class';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
+import { DialogEditAddressComponent } from '../dialog-edit-address/dialog-edit-address.component';
+
+
 
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [MatCardModule, CommonModule, MatIcon, MatButtonModule],
+  imports: [MatCardModule, CommonModule, MatIcon, MatButtonModule,MatMenuModule,MatDialogModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
 })
@@ -24,9 +30,9 @@ export class UserDetailComponent {
   userID: any = '';
   user: User = new User;
   userData: any;
+  
 
-
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, public dialog: MatDialog) {
     this.route.paramMap.subscribe(async paramMap => {
       this.userID = paramMap.get('id');
       console.log('the id is:', this.userID)
@@ -51,8 +57,14 @@ export class UserDetailComponent {
   }
 
 
-  openAdressDialog(){
+  editAddress(){
+   const dialog = this.dialog.open(DialogEditAddressComponent)
+   dialog.componentInstance.user = this.userData;
+  }
 
+
+  editUserDetail(){
+      this.dialog.open(DialogEditUserComponent)
   }
 
 }
