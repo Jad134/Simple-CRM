@@ -1,17 +1,20 @@
-<mat-card class="user-detail-header">
+<mat-card *ngIf="userData" class="user-detail-header">
     <mat-card-content>
         <img class="avatar" src="assets/img/avatar.png" alt="">
         <div class="user-details">
-            <h2> Max Mustermann</h2>
-            Email
+            <h2>{{userData.firstName}} {{userData.lastName}}</h2>
+            {{userData.email}}
         </div>
     </mat-card-content>
 </mat-card>
 
-<mat-card class="mt-32">
+<mat-card *ngIf="userData" class="mt-32">
+    <button  class="more-icon" mat-icon-button (click)="openAdressDialog()">
+        <mat-icon>more_vert</mat-icon>
+      </button>
     <mat-card-content class="user-address">
         <mat-card-title>Address</mat-card-title>
-        Musterstr. 23 <br>
-        12345 Musterstadt
+        {{userData.street}} <br>
+        {{userData.zipCode}} {{userData.city}}
     </mat-card-content>
 </mat-card>

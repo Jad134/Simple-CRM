@@ -35,3 +35,10 @@ mat-card-content{
     display: flex;
     flex-direction: column;
 }
+
+.more-icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}

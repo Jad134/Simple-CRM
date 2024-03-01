@@ -19,6 +19,8 @@ import { RouterOutlet, RouterModule } from '@angular/router';
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
+
+
 export class UserComponent {
 
 
@@ -27,8 +29,6 @@ export class UserComponent {
   allUsers: any[] = [];
   
   
-
-
   constructor(public dialog: MatDialog) {
     this.loadData()
   }
@@ -64,6 +64,4 @@ export class UserComponent {
       console.error('Fehler beim Laden der Daten:', error);
     }
   }
-
- 
 }
