@@ -6,8 +6,8 @@ import { User } from '../../models/user.class';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
 import { DialogEditAddressComponent } from '../dialog-edit-address/dialog-edit-address.component';
 
@@ -17,7 +17,7 @@ import { DialogEditAddressComponent } from '../dialog-edit-address/dialog-edit-a
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [MatCardModule, CommonModule, MatIcon, MatButtonModule,MatMenuModule,MatDialogModule],
+  imports: [MatCardModule, CommonModule, MatIcon, MatButtonModule, MatMenuModule, MatDialogModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
 })
@@ -30,7 +30,7 @@ export class UserDetailComponent {
   userID: any = '';
   user: User = new User;
   userData: any;
-  
+
 
   constructor(private route: ActivatedRoute, public dialog: MatDialog) {
     this.route.paramMap.subscribe(async paramMap => {
@@ -57,15 +57,19 @@ export class UserDetailComponent {
   }
 
 
-  editAddress(){
-   const dialog = this.dialog.open(DialogEditAddressComponent)
-   dialog.componentInstance.user = this.userData;
+  editAddress() {
+    const trimmedUserID = this.userID.trim();
+    const dialog = this.dialog.open(DialogEditAddressComponent)
+    dialog.componentInstance.user = new User(this.userData);
+    dialog.componentInstance.userId = trimmedUserID;
   }
 
 
-  editUserDetail(){
-     const dialog = this.dialog.open(DialogEditUserComponent)
-     dialog.componentInstance.user = this.userData;
+  editUserDetail() {
+    const trimmedUserID = this.userID.trim();
+    const dialog = this.dialog.open(DialogEditUserComponent)
+    dialog.componentInstance.user = new User(this.userData);
+    dialog.componentInstance.userId = trimmedUserID;
   }
 
 }
